@@ -17,10 +17,75 @@ Category Page
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Categories Management</h1>
+                <h1 class="text-3xl font-bold text-gray-600">Categories Management</h1>
                 <p class="text-gray-600 mt-2">Organize your products into categories</p>
             </div>
-            <button class="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+            @if(session('success'))
+                <span>
+                    {{session('success')}}
+                </span>
+            @endif
+            @if(session('Error'))
+                <span>
+                    {{session('Error')}}
+                </span>
+            @endif
+            <!-- Add Category Modal -->
+       <div id="addCategoryModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
+        <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <h2 class="text-2xl font-bold text-gray-800">Add New Category</h2>
+            <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        <form action="{{ route('StoreCategory') }}" method="POST">
+            @csrf
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+                    <input value="{{old('name')}}" name="name" required type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-primary-300" placeholder="Enter category name">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea value="{{old('description')}}" name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-primary-300" placeholder="Enter category description"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                    <select value="{{old('icon')}}" name="icon" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-primary-300">
+                        <option value="tv">TV</option>
+                        <option value="shirt">Shirt</option>
+                        <option value="home">Home</option>
+                        <option value="heart">Beauty</option>
+                        <option value="flag">Sports</option>
+                        <option value="book">Books</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="status" value="active" class="form-radio text-primary-600" checked>
+                            <span class="ml-2 text-gray-700">Active</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="status" value="inactive" class="form-radio text-primary-600">
+                            <span class="ml-2 text-gray-700">Inactive</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button type="submit" class="px-5 py-2 bg-primary-600 text-white rounded-md font-semibold hover:bg-primary-700 transition-colors">
+                        Add Category
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+            <button id="openAddCategory" class="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
                 Add New Category
             </button>
         </div>
@@ -28,34 +93,41 @@ Category Page
         <!-- Categories Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Electronics Category -->
-            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
+            @foreach($categories as $category )
+                <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-{{$category->icon}}"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">{{$category->name}}</h3>
+                                <p class="text-sm text-gray-500">{{$category->description}}</p>
+                            </div>
                         </div>
-                        <div class="ml-4">
-                            <h3 class="text-lg font-semibold text-gray-900">Electronics</h3>
-                            <p class="text-sm text-gray-500">Latest gadgets and devices</p>
+                        <div class="flex space-x-2">
+                            <a href="{{ route('showEdit', $category->id) }}" class="text-primary-600 hover:text-primary-900 text-sm">Edit</a>
+                            <a href="{{ route('delete', $category->id) }}" class="text-red-600 hover:text-red-900 text-sm">Delete</a>
                         </div>
                     </div>
-                    <div class="flex space-x-2">
-                        <button class="text-primary-600 hover:text-primary-900 text-sm">Edit</button>
-                        <button class="text-red-600 hover:text-red-900 text-sm">Delete</button>
+                    <div class="flex items-center justify-between text-sm text-gray-600">
+                        <span>24 products</span>
+                        @if($category->status === "active")
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                {{$category->status}}
+                            </span>
+                        @endif
+                         @if($category->status === "inactive")
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                {{$category->status}}
+                            </span>
+                        @endif
+                       
                     </div>
                 </div>
-                <div class="flex items-center justify-between text-sm text-gray-600">
-                    <span>24 products</span>
-                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                    </span>
-                </div>
-            </div>
-
+            @endforeach
             <!-- Fashion Category -->
-            <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+            {{-- <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center">
                         <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -187,7 +259,7 @@ Category Page
                         Active
                     </span>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- Add Category Form (Hidden by default) -->
