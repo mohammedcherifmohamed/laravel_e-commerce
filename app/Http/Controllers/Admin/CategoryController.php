@@ -45,6 +45,29 @@ class CategoryController extends Controller
         return view('admin.EditCategory',compact('category'));
     }
 
+    public function editPost(Request $req , $id){
+
+        $req->validate([
+            "name" => "required|max:255",
+            "description" => "required|max:255",
+        ]);
+
+        $category = CategoryModel::findOrFail($id);
+        $category->name = $req->name ;
+        $category->description = $req->description ;
+        $category->icon = $req->icon ;
+        $category->status = $req->status ;
+
+        $result = $category->save() ;
+        if($result){
+            return redirect()->route('Category')->with('success',"Category Updated");
+        }else{
+            return back()->with('error',"Category Faild to Update");
+        }
+
+
+    }
+
     public function delete(Request $req , $id){
 
         $category = CategoryModel::findOrFail($id) ;

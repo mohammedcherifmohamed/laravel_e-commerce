@@ -14,8 +14,9 @@
             <h2 class="text-2xl font-bold text-gray-800">Update Category</h2>
             <a href="{{route('Category')}}" id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</a>
         </div>
-        <form action="{{ route('editPost') }}" method="POST">
+        <form action="{{ route('editPost',$category->id) }}" method="POST">
             @csrf
+            @method('PATCH')
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Category Name</label>

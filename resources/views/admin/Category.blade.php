@@ -21,14 +21,14 @@ Category Page
                 <p class="text-gray-600 mt-2">Organize your products into categories</p>
             </div>
             @if(session('success'))
-                <span>
+                <x-alert type="success">
                     {{session('success')}}
-                </span>
+                </x-alert>
             @endif
             @if(session('Error'))
-                <span>
+                <x-alert type="danger">
                     {{session('Error')}}
-                </span>
+                </x-alert>
             @endif
             <!-- Add Category Modal -->
        <div id="addCategoryModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">

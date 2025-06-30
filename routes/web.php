@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Dashboard ;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController ;
+use App\Http\Controllers\Admin\ProductController ;
 use App\Http\Middleware\RedirectIfUnauthenticated;
 
 
@@ -16,10 +17,11 @@ Route::middleware([RedirectIfUnauthenticated::class])->group(function(){
     
     Route::get('/admin/showEdit/{id}',[CategoryController::class , "showEdit"])->name('showEdit');
     
-    Route::post('/admin/editPost',[CategoryController::class , "editPost"])->name('editPost');
+    Route::patch('/admin/editPost/{id}',[CategoryController::class , "editPost"])->name('editPost');
     
     Route::get('/admin/delete/{id}',[CategoryController::class , "delete"])->name('delete');
-
+    
+    Route::get('/admin/showProduct',[ProductController::class , "showProduct"])->name('showProduct');
 
 
 
