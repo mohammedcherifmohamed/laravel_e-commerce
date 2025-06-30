@@ -22,8 +22,16 @@ Route::middleware([RedirectIfUnauthenticated::class])->group(function(){
     Route::get('/admin/delete/{id}',[CategoryController::class , "delete"])->name('delete');
     
     Route::get('/admin/showProduct',[ProductController::class , "showProduct"])->name('showProduct');
-
-
+    
+    Route::post('/admin/AddProduct',[ProductController::class , "AddProduct"])->name('AddProduct');
+    
+    Route::get('/admin/editProduct/{id}',[ProductController::class , "editProduct"])->name('editProduct');
+    
+    Route::PUT('/admin/updateProduct/{id}',[ProductController::class , "updateProduct"])->name('updateProduct');
+    
+    Route::get('/admin/deleteProduct/{id}',[ProductController::class , "deleteProduct"])->name('deleteProduct');
+    
+    Route::delete('/admin/deleteImage/{id}',[ProductController::class , "deleteImage"])->name('deleteImage');
 
 });
 

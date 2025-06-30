@@ -115,21 +115,31 @@
         const modal = document.getElementById('addCategoryModal');
         const openBtn = document.getElementById('openAddCategory');
         const closeBtn = document.getElementById('closeModal');
-
-        openBtn.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
-
+        if(openBtn){
+            openBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+            });
+        }
+        if(closeBtn){
         closeBtn.addEventListener('click', () => {
             modal.classList.add('hidden');
         });
-
+    }
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.add('hidden');
             }
         });
     });
+    function toggleAddProductModal() {
+        const modal = document.getElementById('addProductModal');
+        modal.classList.toggle('hidden');
+    }
+
+    document.querySelector('button').addEventListener('click', function () {
+        toggleAddProductModal();
+    });
+
     </script>
 
 </body>
