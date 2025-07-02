@@ -7,10 +7,10 @@
 
 @section('content')
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <x-alert type="success">{{ session('success') }}</x-alert>
     @endif
     @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <x-alert type="danger">{{ session('error') }}</x-alert>
     @endif
     @if($errors->any())
         <div class="alert alert-danger">
@@ -88,23 +88,6 @@
                                         <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                                    @enderror
                                 </div>
-                                <div class="flex flex-wrap gap-6">
-                                    @foreach ($product->images as $image)
-                                        <div class="flex flex-col items-center space-y-2">
-                                            <img src="{{ asset('storage/' . $image->image_path) }}"
-                                                class="h-20 w-20 rounded-lg bg-gray-200 object-cover shadow"
-                                                alt="Product Image">
-
-                                            <form action="{{ route('deleteImage', $image->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-medium">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    @endforeach
-                                </div>
 
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-white">Product Images</label>
@@ -125,6 +108,23 @@
                                 </button>
                             </div>
                         </form>
+                        <div class="flex flex-wrap gap-6">
+                                    @foreach ($product->images as $image)
+                                        <div class="flex flex-col items-center space-y-2">
+                                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                class="h-20 w-20 rounded-lg bg-gray-200 object-cover shadow"
+                                                alt="Product Image">
+
+                                            <form action="{{ route('deleteImage', $image->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-medium">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endforeach
+                         </div>
                     </div>
                 </div>
             </div>

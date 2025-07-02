@@ -2,11 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Dashboard ;
-use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController ;
 use App\Http\Controllers\Admin\ProductController ;
 use App\Http\Middleware\RedirectIfUnauthenticated;
+use App\Http\Controllers\Admin\AuthController;
 
+use App\Http\Controllers\User\User_AuthController;
+use App\Http\Controllers\User\ShopController;
 
 Route::middleware([RedirectIfUnauthenticated::class])->group(function(){
     Route::get('/admin/dashboard',[Dashboard::class , "index"])->name('index');
@@ -41,6 +43,17 @@ Route::get('/',[AuthController::class , "login"])->name('login');
 Route::post('/admin/loginPost',[AuthController::class , "loginPost"])->name('loginPost');
 
 Route::get('/admin/logout',[AuthController::class , "logout"])->name('logout');
+
+Route::get('/home',[User_AuthController::class , "home"])->name('home');
+
+Route::get('/user/shop',[ShopController::class , "index"])->name('shop');
+
+Route::get('/user/productDetails/{id}',[ShopController::class , "productDetails"])->name('productDetails');
+
+
+
+
+
 
 
 

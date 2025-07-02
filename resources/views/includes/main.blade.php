@@ -36,6 +36,8 @@
         * {
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
+         body { font-family: 'Inter', sans-serif; }
+    .carousel-item { transition: opacity 0.5s; }
     </style>
 </head>
 <body class="h-full font-inter bg-gray-50 dark:bg-gray-900">
@@ -44,103 +46,10 @@
 
     @yield('content')
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const toggleBtn = document.getElementById('darkModeToggle');
-            const sunIcon = document.getElementById('sunIcon');
-            const moonIcon = document.getElementById('moonIcon');
-
-            function applyTheme(isDark) {
-                if (isDark) {
-                    document.documentElement.classList.add('dark');
-                    if (sunIcon) sunIcon.classList.remove('hidden');
-                    if (moonIcon) moonIcon.classList.add('hidden');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    if (sunIcon) sunIcon.classList.add('hidden');
-                    if (moonIcon) moonIcon.classList.remove('hidden');
-                }
-            }
-
-            // Load theme preference
-            const saved = localStorage.getItem('darkMode');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = saved === 'true' || (!saved && prefersDark);
-            applyTheme(isDark);
-
-            // Toggle
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', () => {
-                    const nowDark = !document.documentElement.classList.contains('dark');
-                    localStorage.setItem('darkMode', nowDark);
-                    applyTheme(nowDark);
-                });
-            }
-
-            // Sidebar functionality
-            const openSidebarBtn = document.getElementById('openSidebar');
-            const closeSidebarBtn = document.getElementById('closeSidebar');
-            const sidebar = document.getElementById('sidebar');
-            const profileMenuBtn = document.getElementById('profileMenuBtn');
-            const profileMenu = document.getElementById('profileMenu');
-
-            // Sidebar toggle
-            if (openSidebarBtn && sidebar) {
-                openSidebarBtn.addEventListener('click', function() {
-                    sidebar.classList.remove('-translate-x-full');
-                });
-            }
-
-            if (closeSidebarBtn && sidebar) {
-                closeSidebarBtn.addEventListener('click', function() {
-                    sidebar.classList.add('-translate-x-full');
-                });
-            }
-
-            // Profile menu toggle
-            if (profileMenuBtn && profileMenu) {
-                profileMenuBtn.addEventListener('click', function() {
-                    profileMenu.classList.toggle('hidden');
-                });
-
-                // Close profile menu when clicking outside
-                document.addEventListener('click', function(event) {
-                    if (!profileMenuBtn.contains(event.target) && !profileMenu.contains(event.target)) {
-                        profileMenu.classList.add('hidden');
-                    }
-                });
-            }
-        });
-        document.addEventListener('DOMContentLoaded', () => {
-        const modal = document.getElementById('addCategoryModal');
-        const openBtn = document.getElementById('openAddCategory');
-        const closeBtn = document.getElementById('closeModal');
-        if(openBtn){
-            openBtn.addEventListener('click', () => {
-                modal.classList.remove('hidden');
-            });
-        }
-        if(closeBtn){
-        closeBtn.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-    }
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
-        });
-    });
-    function toggleAddProductModal() {
-        const modal = document.getElementById('addProductModal');
-        modal.classList.toggle('hidden');
-    }
-
-    document.querySelector('button').addEventListener('click', function () {
-        toggleAddProductModal();
-    });
-
-    </script>
+    @hasSection('admin_js')
+        @yield('admin_js')
+    @endif
+    @yield('user_js')
 
 </body>
 </html>

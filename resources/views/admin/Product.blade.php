@@ -22,7 +22,7 @@ Products Page
                         <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Products</h2>
                         <p class="text-gray-600 mt-2 dark:text-white">Manage your product catalog</p>
                     </div>
-                    <button onclick="toggleAddProductModal()" class="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+                    <button id="openAddProduct" onclick="toggleAddProductModal()" class="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
                         Add New Product
                     </button>
                 </div>
@@ -137,23 +137,23 @@ Products Page
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-white">Search</label>
-                            <input type="text" placeholder="Search products..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <input id="search_by_name" type="text" placeholder="Search products..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-white">Category</label>
-                            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <select id="searchBy_category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <option value="all">All Categories</option>
                                 @foreach($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->name}}</option>
-                             @endforeach
+                                   <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-white">Status</label>
-                            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                                <option>All Status</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
-                                <option>Out of Stock</option>
+                            <select id="searchBy_status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <option value="all" >All Status</option>
+                                <option value="in_stock" >in stock</option>
+                                <option value="out_of_stock" >out of stock</option>
                             </select>
                         </div>
                         <div class="flex items-end">
@@ -190,9 +190,13 @@ Products Page
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            <tbody id="products_table" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                 @foreach($products as $product)
-                                    <tr class="hover:bg-gray-500">
+                                    <tr  class="hover:bg-gray-500 product-row"
+                                        data-category="{{ $product->category->name }}" 
+                                        data-category-id="{{ $product->category_id }}"
+                                        data-status="{{ $product->status }}"
+                                        >
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div class="h-10 w-10 flex-shrink-0">
@@ -203,7 +207,7 @@ Products Page
                                                     @endif
                                            </div>
                                                 <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{$product->name}}</div>
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-white product-name">{{$product->name}}</div>
                                                 </div>
                                             </div>
                                         </td>

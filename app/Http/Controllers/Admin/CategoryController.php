@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;    
 use App\Http\Controllers\Controller;
 use App\Models\CategoryModel;
+use App\Http\Controllers\Admin\ProductController;
 
 class CategoryController extends Controller
 {   
@@ -12,7 +13,12 @@ class CategoryController extends Controller
 
 
         $categories = CategoryModel::all();
-        return view('admin.Category',compact('categories'));
+        $products_nbr = [];
+        foreach ($categories as $category) {
+            $products_nbr[$category->id] = $category->products()->count();
+        }
+
+        return view('admin.Category',compact('categories','products_nbr'));
     }
     
     public function StoreCategory(Request $req){

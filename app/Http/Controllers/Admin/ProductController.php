@@ -42,7 +42,7 @@ class ProductController extends Controller
         if($req->hasFile('images')){
             foreach($req->file('images') as $image){
                 $filename = time() . "_" . uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('public/products',$filename);
+                $image->storeAs('products',$filename,"public");
                 ImageModel::create([
                     "product_id" => $result->id ,
                     "image_path" => "products/" . $filename ,
@@ -88,7 +88,7 @@ class ProductController extends Controller
         if ($req->hasFile('images')) {
             foreach ($req->file('images') as $image) {
                 $filename = time() . "_" . uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('public/products', $filename);
+                $image->storeAs('products', $filename,"public");
                 ImageModel::create([
                     "product_id" => $id,
                     "image_path" => "products/" . $filename,

@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ProductModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class CategoryModel extends Model
 {
@@ -13,4 +16,8 @@ class CategoryModel extends Model
         'status',
         'icon',
     ];
+    public function products(): HasMany
+{
+    return $this->hasMany(ProductModel::class, 'category_id');
+}
 }

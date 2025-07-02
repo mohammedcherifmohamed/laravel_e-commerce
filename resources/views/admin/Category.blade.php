@@ -111,7 +111,7 @@ Category Page
                         </div>
                     </div>
                     <div class="flex items-center justify-between text-sm text-gray-600">
-                        <span>24 products</span>
+                        <span>{{$products_nbr[$category->id]}} products</span>
                         @if($category->status === "active")
                             <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
                                 {{$category->status}}
