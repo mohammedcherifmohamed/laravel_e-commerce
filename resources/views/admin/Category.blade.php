@@ -8,6 +8,9 @@ Category Page
     @include('admin.partials.nav')
 @endsection
 
+@section('admin_js')
+<script src="{{ asset('js/admin_script.js') }}"></script>
+@endsection
 
 @section('content')
 

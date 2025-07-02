@@ -269,3 +269,7 @@ Products Page
 @endif
 @endsection
 
+@section('admin_js')
+<script src="{{ asset('js/admin_script.js') }}"></script>
+@endsection
+

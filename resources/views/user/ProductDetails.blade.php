@@ -1,4 +1,3 @@
-
 @extends('includes.main')
 
 @section('title')
@@ -9,6 +8,10 @@
 
 @section('nav')
     @include('user.partials.nav')
+@endsection
+
+@section('user_product_details_js')
+<script src="{{ asset('js/product_details_script.js') }}"></script>
 @endsection
 
     <div class="max-w-5xl mx-auto my-40 bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row gap-10 p-8 dark:bg-gray-800">
@@ -36,7 +39,7 @@
                     <span class="ml-2 text-gray-500 text-sm">4.0 (234 reviews)</span>
                 </div>
             </div>
-            <div class="text-3xl font-bold mb-3 text-gray-800">{{$product->name}}</div>
+            <div class="text-3xl font-bold mb-3 text-gray-800 dark:text-white">{{$product->name}}</div>
             <div class="mb-5">
                 <span class="inline-block bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold px-6 py-2 rounded-lg shadow">${{$product->price}}</span>
             </div>

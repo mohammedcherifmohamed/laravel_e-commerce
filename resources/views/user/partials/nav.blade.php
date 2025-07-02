@@ -15,17 +15,22 @@
         <a href="{{route('shop')}}" class="hover:text-primary transition">Shop</a>
         <a href="#" class="hover:text-primary transition">About</a>
         <a href="#" class="hover:text-primary transition">Contact</a>
-        <button id="loginBtn" class="ml-4 px-4 py-2 rounded bg-primary text-white font-semibold hover:bg-primary-dark transition hidden">Login</button>
-        <div id="userDropdown" class="relative group">
-          <button class="flex items-center gap-2 px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 font-semibold transition">
-            <span id="userName">John Doe</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg py-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition z-50">
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-            <button id="logoutBtn" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+        @if(Auth::check())
+
+          <div id="userDropdown" class="relative group">
+            <button class="flex items-center gap-2 px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 font-semibold transition">
+              <span id="userName"> {{ Auth::user()->name }}  </span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg py-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition z-50">
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+              <a href="{{route('Userlogout')}}" id="logoutBtn" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</a>
+            </div>
           </div>
-        </div>
+       @else 
+          <a  href="{{route('Login_Register')}}" id="loginBtn" class="hover:text-primary transition">Login</a>
+        @endif
+
         <a href="cart.html" class="ml-2 relative">
           <svg class="w-6 h-6 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"/><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/></svg>
           <span id="cartCount" class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full px-1">0</span>

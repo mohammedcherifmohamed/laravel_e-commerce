@@ -14,6 +14,13 @@
     @endsection
   <main class="pt-20 bg-gray-50 dark:bg-gray-900">
     <!-- Hero Banner -->
+    
+    @if(session('success'))
+      <span class="mt-4 text-green-600 dark:text-green-400" >
+        {{session('success')}}
+      </span>
+    @endif
+
     <section class="relative bg-gradient-to-br from-primary to-indigo-200 dark:from-gray-800 dark:to-gray-900 rounded-3xl mx-4 mt-6 overflow-hidden shadow-xl">
       <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center py-16 px-6 gap-10">
         <div class="flex-1">

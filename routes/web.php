@@ -44,15 +44,21 @@ Route::post('/admin/loginPost',[AuthController::class , "loginPost"])->name('log
 
 Route::get('/admin/logout',[AuthController::class , "logout"])->name('logout');
 
+//  user routes
+
 Route::get('/home',[User_AuthController::class , "home"])->name('home');
 
 Route::get('/user/shop',[ShopController::class , "index"])->name('shop');
 
 Route::get('/user/productDetails/{id}',[ShopController::class , "productDetails"])->name('productDetails');
 
+Route::get('/user/Login_Register',[User_AuthController::class , "Login_Register"])->name('Login_Register');
 
+Route::post('/user/registerPost',[User_AuthController::class , "registerPost"])->name('registerPost');
 
+Route::post('/user/loginPost',[User_AuthController::class , "loginPost"])->name('loginPost');
 
+Route::get('/user/logout',[User_AuthController::class , "logout"])->name('Userlogout');
 
 
 

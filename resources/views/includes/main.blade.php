@@ -48,8 +48,10 @@
 
     @hasSection('admin_js')
         @yield('admin_js')
+    @else
+        @yield('user_js')
+        @yield('user_product_details_js')
     @endif
-    @yield('user_js')
 
 </body>
 </html>
