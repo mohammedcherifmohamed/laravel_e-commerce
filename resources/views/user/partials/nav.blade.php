@@ -17,21 +17,28 @@
         <a href="#" class="hover:text-primary transition">Contact</a>
         @if(Auth::check())
 
-          <div id="userDropdown" class="relative group">
-            <button class="flex items-center gap-2 px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 font-semibold transition">
-              <span id="userName"> {{ Auth::user()->name }}  </span>
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-            </button>
-            <div class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg py-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition z-50">
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-              <a href="{{route('Userlogout')}}" id="logoutBtn" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</a>
-            </div>
-          </div>
+        <div class="relative">
+                    <button id="profileMenuBtn" class="flex items-center space-x-2 text-gray-700 dark:text-black hover:text-gray-900 dark:hover:text-gray-700">
+                        <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Admin">
+                        <span class="hidden md:block text-sm font-medium">{{Auth::user()->name}}</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    
+                    <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 hidden">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Settings</a>
+                        <a href="{{route('Userlogout')}}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Sign out</a>
+                    </div>
+        </div>
+
+          
        @else 
           <a  href="{{route('Login_Register')}}" id="loginBtn" class="hover:text-primary transition">Login</a>
         @endif
 
-        <a href="cart.html" class="ml-2 relative">
+        <a href="#" id="cartToggleBtn" class="ml-2 relative">
           <svg class="w-6 h-6 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"/><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/></svg>
           <span id="cartCount" class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full px-1">0</span>
         </a>
@@ -55,13 +62,31 @@
           <svg id="sunIconMobile" class="w-5 h-5 mr-1 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
           <svg id="moonIconMobile" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
         </button>
-        <a href="cart.html" class="relative">
+        <a href="#" id="cartToggleBtnMobile" class="relative">
           <svg class="w-6 h-6 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"/><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/></svg>
           <span id="cartCountMobile" class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full px-1">0</span>
         </a>
       </div>
     </div>
   </nav>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-md p-8 relative">
+      <button id="closeCart" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 dark:text-gray-200">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Your Cart</h2>
+      <div id="cartItems" class="mb-6 max-h-60 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700">
+        <!-- Cart items will be rendered here by JS -->
+      </div>
+      <div class="flex justify-between items-center mb-4">
+        <span class="font-semibold text-lg text-gray-700 dark:text-gray-200">Total:</span>
+        <span id="cartTotal" class="text-xl font-bold text-primary">$0.00</span>
+      </div>
+      <button id="checkoutBtn" class="w-full py-3 bg-primary text-white rounded-lg font-semibold text-lg hover:bg-primary-dark transition">Checkout</button>
+    </div>
+  </div>
 
 @endsection
 

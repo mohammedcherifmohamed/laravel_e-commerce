@@ -15,8 +15,7 @@ class AuthController extends Controller {
         return view("admin.auth.Login");
     }
 
-    public function loginPost(Request $req){
-        
+    public function adminloginPost(Request $req){
         $req->validate([
             "email" => "required|email",
             "password" => "required"
@@ -25,10 +24,9 @@ class AuthController extends Controller {
         $user = User::where('email',$req->email)->first();
 
         if($user){
-            if(Hash::check($req->password , $user->password) && $user->role === 'admin'){
-            //   dd(Auth::login($user));
+            if(Hash::check($req->password , $user->password) && $user->role == 'admin'){
                 Auth::login($user);
-                return view('admin.dashboard',compact('user'));
+                return redirect()->route('index');
             }else{
                 return back()->with('password_error',"Invalid Password")->withInput();
             }

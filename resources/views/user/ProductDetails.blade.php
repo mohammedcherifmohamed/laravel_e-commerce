@@ -43,15 +43,37 @@
             <div class="mb-5">
                 <span class="inline-block bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold px-6 py-2 rounded-lg shadow">${{$product->price}}</span>
             </div>
+            <div class="flex items-center gap-4 mb-6">
+                <label for="productQty" class="text-gray-700 dark:text-gray-200 font-medium">Qty:</label>
+                <input id="productQty" type="number" min="1" value="1" class="w-20 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white" />
+            </div>
             <div class="text-base text-gray-600 mb-8 leading-relaxed dark:text-white">
                 {!! nl2br(e($product->description)) !!}
             </div>
             <!-- Features Card -->
             
-            <button class="group bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg px-8 py-4 text-lg font-bold shadow hover:from-blue-700 hover:to-blue-500 transition-all duration-200 w-full md:w-auto flex items-center justify-center gap-2 focus:outline-none focus:ring-4 focus:ring-blue-200">
+            <button id="addToCartBtn" class="group bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg px-8 py-4 text-lg font-bold shadow hover:from-blue-700 hover:to-blue-500 transition-all duration-200 w-full md:w-auto flex items-center justify-center gap-2 focus:outline-none focus:ring-4 focus:ring-blue-200">
                 <svg class="w-6 h-6 mr-1 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A2 2 0 0 0 7.48 19h9.04a2 2 0 0 0 1.83-1.3L21 13M7 13V6a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v7"/></svg>
                 Add to Cart
             </button>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const btn = document.getElementById('addToCartBtn');
+                    btn.addEventListener('click', function() {
+                        const qty = parseInt(document.getElementById('productQty').value) || 1;
+                        window.addToCart({
+                            id: {{ $product->id }},
+                            name: @json($product->name),
+                            price: {{ $product->price }},
+                            image: @json(asset('storage/' . $product->images->first()->image_path)),
+                            quantity: qty
+                        });
+                        // Optional: show feedback
+                        btn.textContent = 'Added!';
+                        setTimeout(() => { btn.textContent = 'Add to Cart'; }, 1000);
+                    });
+                });
+            </script>
         </div>
     </div>
 

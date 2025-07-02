@@ -38,15 +38,15 @@ Route::middleware([RedirectIfUnauthenticated::class])->group(function(){
 });
 
 
-Route::get('/',[AuthController::class , "login"])->name('login');
+Route::get('/admin/login',[AuthController::class , "login"])->name('login');
 
-Route::post('/admin/loginPost',[AuthController::class , "loginPost"])->name('loginPost');
+Route::post('/admin/adminloginPost',[AuthController::class , "adminloginPost"])->name('adminloginPost');
 
 Route::get('/admin/logout',[AuthController::class , "logout"])->name('logout');
 
 //  user routes
 
-Route::get('/home',[User_AuthController::class , "home"])->name('home');
+Route::get('/',[User_AuthController::class , "home"])->name('home');
 
 Route::get('/user/shop',[ShopController::class , "index"])->name('shop');
 
@@ -56,9 +56,9 @@ Route::get('/user/Login_Register',[User_AuthController::class , "Login_Register"
 
 Route::post('/user/registerPost',[User_AuthController::class , "registerPost"])->name('registerPost');
 
-Route::post('/user/loginPost',[User_AuthController::class , "loginPost"])->name('loginPost');
+Route::post('/user/UserloginPost',[User_AuthController::class , "UserloginPost"])->name('UserloginPost');
 
-Route::get('/user/logout',[User_AuthController::class , "logout"])->name('Userlogout');
+Route::get('/user/Userlogout',[User_AuthController::class , "Userlogout"])->name('Userlogout');
 
 
 

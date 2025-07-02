@@ -77,7 +77,7 @@ Login | Register
 
             <!-- Login Form -->
             <div id="loginForm" class="space-y-6">
-                <form class="space-y-6" action="{{route('loginPost')}}" method="POST">
+                <form class="space-y-6" action="{{route('UserloginPost')}}" method="POST">
                     @csrf
                     <div>
                         <label for="login-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email address</label>

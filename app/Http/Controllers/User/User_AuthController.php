@@ -44,7 +44,7 @@ class User_AuthController extends Controller {
 
     }
 
-    public function loginPost(){
+    public function UserloginPost(){
 
         $credentials = request()->only('email', 'password');
         if (Auth::attempt($credentials)) {
@@ -56,7 +56,7 @@ class User_AuthController extends Controller {
     }
 
 
-    public function logout(){
+    public function Userlogout(){
 
         Auth::logout();
         return redirect()->route('home');

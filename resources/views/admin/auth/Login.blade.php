@@ -38,7 +38,7 @@ Login Page
 
 
             <!-- Login Form -->
-            <form  action="{{route('loginPost')}}" method="POST" class="mt-8 space-y-6" id="loginForm">
+            <form  action="{{route('adminloginPost')}}" method="POST" class="mt-8 space-y-6" id="loginForm">
                @csrf
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div class="relative">
