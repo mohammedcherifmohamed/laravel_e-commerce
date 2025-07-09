@@ -1,6 +1,7 @@
 <?php
-
 namespace App\Http\Controllers\User ;
+
+use Carbon\Carbon; 
 use Illuminate\Http\Request;    
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -9,10 +10,16 @@ use Illuminate\Support\Facades\Auth;
 
 class User_AuthController extends Controller {
 
-    public function home(){
+public function home()
+{
+    $categories = \App\Models\CategoryModel::all();
 
-        return view('user.Home');
-    }
+    $products = \App\Models\ProductModel::with('images')
+        ->where('created_at', '>=', Carbon::now()->subDays(3))
+        ->get();
+
+    return view('user.Home', compact('categories', 'products'));
+}
     public function shop(){
 
         return view('user.Shop');

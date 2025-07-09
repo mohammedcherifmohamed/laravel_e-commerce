@@ -12,9 +12,9 @@
     <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
         <div class="flex justify-between items-center mb-4 border-b pb-2">
             <h2 class="text-2xl font-bold text-gray-800">Update Category</h2>
-            <a href="{{route('Category')}}" id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</a>
+            <a href="{{route('admin.Category')}}" id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</a>
         </div>
-        <form action="{{ route('editPost',$category->id) }}" method="POST">
+        <form action="{{ route('admin.editPost',$category->id) }}" method="POST">
             @csrf
             @method('PATCH')
             <div class="space-y-4">

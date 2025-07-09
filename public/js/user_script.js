@@ -1,5 +1,10 @@
 // User-side dark mode toggle logic
-
+    function getCart() {
+        return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+    function setCart(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
 document.addEventListener("DOMContentLoaded", () => {
     const toggleBtn = document.getElementById('darkModeToggle');
     const sunIcon = document.getElementById('sunIcon');
@@ -74,12 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- CART LOGIC ---
     // Cart state in localStorage
-    function getCart() {
-        return JSON.parse(localStorage.getItem('cart') || '[]');
-    }
-    function setCart(cart) {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }
+
+    
     function updateCartCount() {
         const cart = getCart();
         const count = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -101,14 +102,14 @@ document.addEventListener("DOMContentLoaded", () => {
             cart.forEach((item, idx) => {
                 total += item.price * item.quantity;
                 cartItems.innerHTML += `
-                  <div class='flex items-center justify-between py-3'>
+                  <div class='item_container flex items-center justify-between py-3'>
                     <div class='flex items-center gap-3'>
                       <img src='${item.image}' class='w-14 h-14 object-cover rounded-lg border' />
                       <div>
-                        <div class='font-semibold text-gray-800 dark:text-white'>${item.name}</div>
-                        <div class='text-sm text-gray-500 dark:text-gray-300'>$${item.price} x 
-                          <button class="decrementQty px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 mx-1" data-idx='${idx}'>-</button>
-                          <span class="inline-block w-6 text-center">${item.quantity}</span>
+                        <div  class='item_name font-semibold text-gray-800 dark:text-white'>${item.name}</div>
+                        <div class='item_price text-sm text-gray-500 dark:text-gray-300'>$${item.price} x 
+                          <button class="item_decrementQty px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 mx-1" data-idx='${idx}'>-</button>
+                          <span class="item_quantity inline-block w-6 text-center">${item.quantity}</span>
                           <button class="incrementQty px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 mx-1" data-idx='${idx}'>+</button>
                         </div>
                       </div>
@@ -168,23 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-    // Checkout button
-    const checkoutBtn = document.getElementById('checkoutBtn');
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', function() {
-            const cart = getCart();
-            if (cart.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-            // For demo: just clear cart and show message
-            alert('Checkout successful!');
-            setCart([]);
-            renderCart();
-            updateCartCount();
-            hideCartModal();
-        });
-    }
+
+
+
     // Add to cart logic (to be called from product/shop pages)
     window.addToCart = function(product) {
         let cart = getCart();
@@ -199,4 +186,98 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     // Update cart count on load
     updateCartCount();
+
+    const cartModal = document.getElementById('cartModal');
+    const checkoutModal = document.getElementById('checkoutModal');
+
+    const closeCheckout = document.getElementById('closeCheckout');
+
+
+
+
+    closeCart?.addEventListener('click', function () {
+        cartModal.classList.add('hidden');
+    });
+
+    closeCheckout?.addEventListener('click', function () {
+        checkoutModal.classList.add('hidden');
+    });
+
 }); 
+
+$('#checkoutBtn').on('click', function () {
+    console.log('Checkout button clicked');
+
+    var item_container = document.querySelectorAll('.item_container');
+    if (item_container.length === 0) {
+        alert('Your cart is empty. Please add items to your cart before checking out.');
+        return;
+    }
+
+    // Show the checkout modal
+    const checkoutModal = document.getElementById('checkoutModal');
+    if (checkoutModal) {
+        checkoutModal.classList.remove('hidden');
+    }
+
+    // Render the cart items in the checkout modal
+    const checkoutItems = document.getElementById('checkoutItems');
+    const checkoutTotal = document.getElementById('checkoutTotal');
+    const cart = getCart(); // Make sure this function exists
+    checkoutItems.innerHTML = '';
+    let total = 0;
+
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        const itemHTML = `
+            <div class="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600">
+                <div class="flex items-center gap-3">
+                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded" />
+                    <div>
+                        <div class="font-semibold text-gray-800 dark:text-white">${item.name}</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-300">$${item.price} × ${item.quantity}</div>
+                    </div>
+                </div>
+                <div class="font-bold text-gray-800 dark:text-white">$${itemTotal.toFixed(2)}</div>
+            </div>
+        `;
+
+        checkoutItems.innerHTML += itemHTML;
+    });
+
+    checkoutTotal.textContent = `$${total.toFixed(2)}`;
+});
+document.getElementById('checkoutDeliveryForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const deliveryData = Object.fromEntries(formData.entries());
+    deliveryData.cart = getCart();
+
+fetch(checkoutProcessUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify(deliveryData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Order placed!");
+            localStorage.removeItem('cart');
+            window.location.href = "/thank-you";
+        } else {
+            alert("Error placing order.");
+        }
+    })
+    .catch(error => {
+        // console.error(error);
+        alert("Something went wrong!");
+    });
+});
+
+

@@ -40,7 +40,7 @@ Category Page
             <h2 class="text-2xl font-bold text-gray-800">Add New Category</h2>
             <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
         </div>
-        <form action="{{ route('StoreCategory') }}" method="POST">
+        <form action="{{ route('admin.StoreCategory') }}" method="POST">
             @csrf
             <div class="space-y-4">
                 <div>
@@ -109,8 +109,8 @@ Category Page
                             </div>
                         </div>
                         <div class="flex space-x-2">
-                            <a href="{{ route('showEdit', $category->id) }}" class="text-primary-600 hover:text-primary-900 text-sm">Edit</a>
-                            <a href="{{ route('delete', $category->id) }}" class="text-red-600 hover:text-red-900 text-sm">Delete</a>
+                            <a href="{{ route('admin.showEdit', $category->id) }}" class="text-primary-600 hover:text-primary-900 text-sm">Edit</a>
+                            <a href="{{ route('admin.delete', $category->id) }}" class="text-red-600 hover:text-red-900 text-sm">Delete</a>
                         </div>
                     </div>
                     <div class="flex items-center justify-between text-sm text-gray-600">

@@ -1,8 +1,4 @@
-
-
-
-
-        document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
            const products_table = document.getElementById('products_table');
     const search_by_name = document.getElementById('search_by_name');
     const search_by_status = document.getElementById('searchBy_status');

@@ -15,6 +15,7 @@ class ProductModel extends Model
         'price',
         'category_id',
         'quantity',
+        'rating',
     ];
         public function category()
         {

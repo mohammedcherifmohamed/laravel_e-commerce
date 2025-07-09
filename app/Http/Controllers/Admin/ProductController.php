@@ -96,7 +96,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('showProduct')->with('success', 'Product updated successfully');
+        return redirect()->route('admin.showProduct')->with('success', 'Product updated successfully');
     }
 
     public function deleteProduct($id){

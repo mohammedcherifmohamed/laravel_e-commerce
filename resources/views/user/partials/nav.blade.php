@@ -88,9 +88,49 @@
     </div>
   </div>
 
+ 
+<!-- Checkout Modal -->
+<div id="checkoutModal" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-2xl p-8 relative">
+        <button id="closeCheckout" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 dark:text-gray-200">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Checkout</h2>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Cart Summary -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Cart Summary</h3>
+                <div id="checkoutItems" class="divide-y divide-gray-200 dark:divide-gray-700 max-h-60 overflow-y-auto mb-4"></div>
+                <div class="flex justify-between font-bold text-lg text-gray-800 dark:text-white">
+                    <span>Total:</span>
+                    <span id="checkoutTotal">$0.00</span>
+                </div>
+            </div>
+
+            <!-- Delivery Form -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Delivery Information</h3>
+                <form id="checkoutDeliveryForm" class="space-y-4">
+                    <input type="text" name="name" placeholder="Full Name" class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:text-white" required />
+                    <input type="text" name="phone" placeholder="Phone Number" class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:text-white" required />
+                    <input type="email" name="email" placeholder="Email" class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:text-white" required />
+                    <textarea name="address" placeholder="Address" class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:text-white" required></textarea>
+                    <button type="submit" class="w-full py-2 bg-primary text-white rounded font-semibold hover:bg-primary-dark transition">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('user_js')
 <script src="{{ asset('js/user_script.js') }}"></script>
+<script>
+    const checkoutProcessUrl = "{{ route('checkout.process') }}";
+</script>
 @endsection
 

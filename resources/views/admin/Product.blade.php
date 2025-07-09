@@ -48,7 +48,7 @@ Products Page
 
                         <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Add New Product</h2>
 
-                        <form action="{{ route('AddProduct') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.AddProduct') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="md:col-span-2">
@@ -243,8 +243,8 @@ Products Page
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div class="flex space-x-2">
-                                                <a href="{{route('editProduct',$product->id)}}" class="text-primary-600 hover:text-primary-900">Edit</a>
-                                                <a href="{{route('deleteProduct',$product->id)}}" class="text-red-600 hover:text-red-900">Delete</a>
+                                                <a href="{{route('admin.editProduct',$product->id)}}" class="text-primary-600 hover:text-primary-900">Edit</a>
+                                                <a href="{{route('admin.deleteProduct',$product->id)}}" class="text-red-600 hover:text-red-900">Delete</a>
                                             </div>
                                         </td>
                                     </tr>

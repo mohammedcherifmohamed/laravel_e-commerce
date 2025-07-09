@@ -95,6 +95,9 @@ Login Page
                 <p class="text-xs text-blue-800 dark:text-blue-200">Email: admin@yurei.it</p>
                 <p class="text-xs text-blue-800 dark:text-blue-200">Password: yurei123</p>
             </div>
+            <div class="mt-3 text-center">
+                <a href="{{ route('admin.register.form') }}">Don't have an account? Register</a>
+            </div>
         </div>
     </div>
 

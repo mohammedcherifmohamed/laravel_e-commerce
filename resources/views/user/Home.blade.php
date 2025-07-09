@@ -37,22 +37,12 @@
     <section class="max-w-7xl mx-auto mt-16 px-4">
       <h2 class="text-2xl md:text-3xl font-bold mb-8 text-gray-900 dark:text-white">Featured Categories</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        @foreach($categories as $category)
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col items-center hover:shadow-lg transition cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80" alt="Men" class="w-16 h-16 rounded-full mb-4" />
-          <span class="font-semibold text-lg text-gray-800 dark:text-white">Men</span>
+        <img src="{{ asset('storage/' . $category->icon) }}" alt="{{ $category->name }}" class="w-16 h-16 rounded-full mb-4" />
+          <span class="font-semibold text-lg text-gray-800 dark:text-white">{{$category->name}}</span>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col items-center hover:shadow-lg transition cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80" alt="Women" class="w-16 h-16 rounded-full mb-4" />
-          <span class="font-semibold text-lg text-gray-800 dark:text-white">Women</span>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col items-center hover:shadow-lg transition cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80" alt="Shoes" class="w-16 h-16 rounded-full mb-4" />
-          <span class="font-semibold text-lg text-gray-800 dark:text-white">Shoes</span>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col items-center hover:shadow-lg transition cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80" alt="Accessories" class="w-16 h-16 rounded-full mb-4" />
-          <span class="font-semibold text-lg text-gray-800 dark:text-white">Accessories</span>
-        </div>
+    @endforeach
       </div>
     </section>
     <!-- New Arrivals / Trending Carousel -->
@@ -67,30 +57,15 @@
       <div id="carousel" class="relative overflow-hidden">
         <div id="carouselInner" class="flex transition-transform duration-500 gap-6">
           <!-- Carousel items (JS will handle sliding) -->
+          @foreach($products as $product)
           <div class="carousel-item min-w-[250px] max-w-xs bg-white dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col items-center hover:shadow-lg transition">
             <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80" alt="Product 1" class="w-32 h-32 object-cover rounded mb-4" />
-            <span class="font-semibold text-lg mb-2 text-gray-800 dark:text-white">Premium Jacket</span>
+            <span class="font-semibold text-lg mb-2 text-gray-800 dark:text-white">{{$product->name}}</span>
             <span class="text-primary font-bold text-xl mb-2">$129</span>
-            <a href="product.html" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-primary dark:text-white dark:hover:bg-primary-dark">View</a>
+            <a href="" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-primary dark:text-white dark:hover:bg-primary-dark">View</a>
           </div>
-          <div class="carousel-item min-w-[250px] max-w-xs bg-white dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col items-center hover:shadow-lg transition">
-            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80" alt="Product 2" class="w-32 h-32 object-cover rounded mb-4" />
-            <span class="font-semibold text-lg mb-2 text-gray-800 dark:text-white">Classic Sneakers</span>
-            <span class="text-primary font-bold text-xl mb-2">$89</span>
-            <a href="product.html" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-primary dark:text-white dark:hover:bg-primary-dark">View</a>
-          </div>
-          <div class="carousel-item min-w-[250px] max-w-xs bg-white dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col items-center hover:shadow-lg transition">
-            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80" alt="Product 3" class="w-32 h-32 object-cover rounded mb-4" />
-            <span class="font-semibold text-lg mb-2 text-gray-800 dark:text-white">Leather Bag</span>
-            <span class="text-primary font-bold text-xl mb-2">$59</span>
-            <a href="product.html" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-primary dark:text-white dark:hover:bg-primary-dark">View</a>
-          </div>
-          <div class="carousel-item min-w-[250px] max-w-xs bg-white dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col items-center hover:shadow-lg transition">
-            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=300&q=80" alt="Product 4" class="w-32 h-32 object-cover rounded mb-4" />
-            <span class="font-semibold text-lg mb-2 text-gray-800 dark:text-white">Smart Watch</span>
-            <span class="text-primary font-bold text-xl mb-2">$199</span>
-            <a href="product.html" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-primary dark:text-white dark:hover:bg-primary-dark">View</a>
-          </div>
+          @endforeach
+          
         </div>
       </div>
     </section>

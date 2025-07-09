@@ -29,7 +29,7 @@
 
                         <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Edit Product</h2>
 
-                        <form action="{{ route('updateProduct',$product->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.updateProduct',$product->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -100,7 +100,7 @@
                             </div>
 
                             <div class="mt-6 flex justify-end">
-                                <a href="{{route('showProduct')}}"  class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md mr-2 hover:bg-gray-300">
+                                <a href="{{route('admin.showProduct')}}"  class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md mr-2 hover:bg-gray-300">
                                     Cancel
                                 </a>
                                 <button type="submit" class="bg-primary-600 text-white px-6 py-2 rounded-md hover:bg-primary-700">
@@ -115,7 +115,7 @@
                                                 class="h-20 w-20 rounded-lg bg-gray-200 object-cover shadow"
                                                 alt="Product Image">
 
-                                            <form action="{{ route('deleteImage', $image->id) }}" method="POST" style="display:inline;">
+                                            <form action="{{ route('admin.deleteImage', $image->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-medium">

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Dashboard ;
 use App\Http\Controllers\Admin\CategoryController ;
@@ -9,40 +11,48 @@ use App\Http\Controllers\Admin\AuthController;
 
 use App\Http\Controllers\User\User_AuthController;
 use App\Http\Controllers\User\ShopController;
+use App\Http\Controllers\User\Checkout;
+use App\Http\Controllers\User\ForgotPasswordController;
 
-Route::middleware([RedirectIfUnauthenticated::class])->group(function(){
-    Route::get('/admin/dashboard',[Dashboard::class , "index"])->name('index');
+Route::prefix('admin')->name('admin.')->middleware(RedirectIfUnauthenticated::class)->group(function(){
+    Route::get('/dashboard',[Dashboard::class , "index"])->name('index');
     
-    Route::get('/admin/category',[CategoryController::class , "showCategory"])->name('Category');
+    Route::get('/category',[CategoryController::class , "showCategory"])->name('Category');
     
-    Route::post('/admin/StoreCategory',[CategoryController::class , "StoreCategory"])->name('StoreCategory');
+    Route::post('/StoreCategory',[CategoryController::class , "StoreCategory"])->name('StoreCategory');
     
-    Route::get('/admin/showEdit/{id}',[CategoryController::class , "showEdit"])->name('showEdit');
+    Route::get('/showEdit/{id}',[CategoryController::class , "showEdit"])->name('showEdit');
     
-    Route::patch('/admin/editPost/{id}',[CategoryController::class , "editPost"])->name('editPost');
+    Route::patch('/editPost/{id}',[CategoryController::class , "editPost"])->name('editPost');
     
-    Route::get('/admin/delete/{id}',[CategoryController::class , "delete"])->name('delete');
+    Route::get('/delete/{id}',[CategoryController::class , "delete"])->name('delete');
     
-    Route::get('/admin/showProduct',[ProductController::class , "showProduct"])->name('showProduct');
+    Route::get('/showProduct',[ProductController::class , "showProduct"])->name('showProduct');
     
-    Route::post('/admin/AddProduct',[ProductController::class , "AddProduct"])->name('AddProduct');
+    Route::post('/AddProduct',[ProductController::class , "AddProduct"])->name('AddProduct');
     
-    Route::get('/admin/editProduct/{id}',[ProductController::class , "editProduct"])->name('editProduct');
+    Route::get('/editProduct/{id}',[ProductController::class , "editProduct"])->name('editProduct');
     
-    Route::PUT('/admin/updateProduct/{id}',[ProductController::class , "updateProduct"])->name('updateProduct');
+    Route::PUT('/updateProduct/{id}',[ProductController::class , "updateProduct"])->name('updateProduct');
     
-    Route::get('/admin/deleteProduct/{id}',[ProductController::class , "deleteProduct"])->name('deleteProduct');
+    Route::get('/deleteProduct/{id}',[ProductController::class , "deleteProduct"])->name('deleteProduct');
     
-    Route::delete('/admin/deleteImage/{id}',[ProductController::class , "deleteImage"])->name('deleteImage');
+    Route::delete('/deleteImage/{id}',[ProductController::class , "deleteImage"])->name('deleteImage');
 
 });
 
 
-Route::get('/admin/login',[AuthController::class , "login"])->name('login');
+// Admin login form (restored to previous method, but with correct route name)
+Route::get('/admin/login', [\App\Http\Controllers\Admin\AuthController::class, 'login'])->name('admin.login');
 
 Route::post('/admin/adminloginPost',[AuthController::class , "adminloginPost"])->name('adminloginPost');
 
 Route::get('/admin/logout',[AuthController::class , "logout"])->name('logout');
+
+// Admin registration form
+Route::get('/admin/register', [\App\Http\Controllers\Admin\AuthController::class, 'showRegisterForm'])->name('admin.register.form');
+// Admin registration submit
+Route::post('/admin/register', [\App\Http\Controllers\Admin\AuthController::class, 'register'])->name('admin.register');
 
 //  user routes
 
@@ -60,6 +70,26 @@ Route::post('/user/UserloginPost',[User_AuthController::class , "UserloginPost"]
 
 Route::get('/user/Userlogout',[User_AuthController::class , "Userlogout"])->name('Userlogout');
 
+// Checkout routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout', [\App\Http\Controllers\User\Checkout::class, 'showCheckoutForm'])->name('checkout.form');
+    Route::post('/checkout', [\App\Http\Controllers\User\Checkout::class, 'processCheckout'])->name('checkout.process');
+    Route::get('/checkout/confirmation/{order}', [\App\Http\Controllers\User\Checkout::class, 'confirmation'])->name('checkout.confirmation');
+    
+});
+
+Route::get('ForgetPasswordPage', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('ForgetPasswordPage');
+
+Route::post('sendVerifucationCode', [ForgotPasswordController::class, 'sendVerifucationCode'])->name('sendVerifucationCode');
+
+Route::post('checkToken', [ForgotPasswordController::class, 'checkToken'])->name('checkToken');
 
 
+Route::get('/send-email',function () {
+    Mail::to('mdg85505@gmail.com') 
+    ->send(new \App\Mail\SendEmail());
+    return 'Email Sent!';
+});
 
+
+// yziw ompf cxbk vbib

@@ -96,7 +96,7 @@ Login | Register
                         </div>
 
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300">Forgot your password?</a>
+                            <a href="{{route('ForgetPasswordPage')}}" class="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300">Forgot your password?</a>
                         </div>
                     </div>
 

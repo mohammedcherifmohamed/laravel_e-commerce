@@ -36,7 +36,7 @@ class CategoryController extends Controller
             "status" => $req->status,
         ]) ;
         if($result){
-            return redirect()->route('Category')->with('success',"Category Added Successfully");
+            return redirect()->route('admin.Category')->with('success',"Category Added Successfully");
         }else{
             return back()->with('Error',"Category Faild To Add")->withInput();
         }
