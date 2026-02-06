@@ -37,7 +37,7 @@ class ShopController extends Controller
         return view('user.Shop', compact('products', 'categories'));
     }
     
-    public function productDetails(Request $req , $id){
+    public function productDetails(Request $req ,$slug, $id){
 
         // dd($id) ;
 

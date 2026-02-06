@@ -60,7 +60,7 @@ Route::get('/',[User_AuthController::class , "home"])->name('home');
 
 Route::get('/user/shop',[ShopController::class , "index"])->name('shop');
 
-Route::get('/user/productDetails/{id}',[ShopController::class , "productDetails"])->name('productDetails');
+Route::get('/user/productDetails/{slug}/{id}',[ShopController::class , "productDetails"])->name('productDetails');
 
 Route::get('/user/Login_Register',[User_AuthController::class , "Login_Register"])->name('Login_Register');
 
@@ -85,11 +85,11 @@ Route::post('sendVerifucationCode', [ForgotPasswordController::class, 'sendVerif
 Route::post('checkToken', [ForgotPasswordController::class, 'checkToken'])->name('checkToken');
 
 
-Route::get('/send-email',function () {
-    Mail::to('mdg85505@gmail.com') 
-    ->send(new \App\Mail\SendEmail());
-    return 'Email Sent!';
-});
+// Route::get('/send-email',function () {
+//     Mail::to('mdg85505@gmail.com') 
+//     ->send(new \App\Mail\SendEmail());
+//     return 'Email Sent!';
+// });
 
 
 // yziw ompf cxbk vbib

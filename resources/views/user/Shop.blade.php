@@ -94,7 +94,10 @@
 
         <div class="flex items-center mb-2">${{ $product->price }}</div>
 
-        <a href="{{ route('productDetails', $product->id) }}"
+        <a href="{{ route('productDetails',[
+                                            'slug' => $product->slug,
+                                            'id' => $product->id
+                                            ]) }}"
             class="group bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg px-4 py-1.5 text-lg font-bold shadow hover:from-blue-700 hover:to-blue-500 transition-all duration-200 w-full md:w-auto flex items-center justify-center gap-2 focus:outline-none focus:ring-4 focus:ring-blue-200">
             View
         </a>
