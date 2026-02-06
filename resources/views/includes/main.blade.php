@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <meta name="title" content="{{$meta_title ?? "test_title"}}">
+    <meta name="description" content="{{$meta_description ?? "test_description"}}">
+    <meta name="keywords" content="{{$meta_keywords ?? "test_keywords"}}">
+
     <title>@yield('title')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
