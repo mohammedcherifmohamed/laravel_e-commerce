@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CategoryModel;
+use App\Models\ImageModel;
+use Illuminate\Support\Str;
 
 class ProductModel extends Model
 {
@@ -25,4 +27,19 @@ class ProductModel extends Model
         {
             return $this->hasMany(ImageModel::class, 'product_id');
         }
+
+        protected static function booted(){
+
+
+        static::creating(function($product){
+            $product->slug = Str::slug($product->name);
+        });
+
+        static::updating(function($product){
+            $product->slug = Str::slug($product->name);
+        });
+
+
+    }
+
 }

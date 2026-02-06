@@ -17,7 +17,7 @@ class RedirectIfUnauthenticated
     public function handle(Request $request, Closure $next): Response
     {
      if (!Auth::check() || Auth::user()->role !== 'admin') {
-        return redirect()->route('login');
+        return redirect()->route('admin.login');
     }
         return $next($request);
     }
