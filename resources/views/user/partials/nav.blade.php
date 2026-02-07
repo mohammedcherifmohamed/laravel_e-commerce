@@ -125,6 +125,12 @@
     </div>
 </div>
 
+{{-- fixed chatbot  in bottom right--}}
+<div id="chatbot" class="fixed bottom-4 right-4 bg-primary text-white rounded-full p-4 shadow-lg cursor-pointer z-50">
+    <script> window.chtlConfig = { chatbotId: "8333438176" } </script>
+  <script async data-id="8333438176" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+</div>
+
 @endsection
 
 @section('user_js')
