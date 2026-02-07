@@ -25,7 +25,7 @@ Dashboard Page
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Sales</p>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-white">$24,780</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-white">${{$totalSales??-1}}</p>
                         <p class="text-sm text-green-600 dark:text-green-400">+12% from last month</p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@ Dashboard Page
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Products</p>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-white">1,234</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{$totalProducts}}</p>
                         <p class="text-sm text-green-600 dark:text-green-400">+8 new this week</p>
                     </div>
                 </div>
@@ -55,7 +55,7 @@ Dashboard Page
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Orders</p>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-white">567</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{$totalOrders}}</p>
                         <p class="text-sm text-green-600 dark:text-green-400">+23% from last month</p>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ Dashboard Page
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Users</p>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-white">8,901</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{$usersCount}}</p>
                         <p class="text-sm text-green-600 dark:text-green-400">+15% from last month</p>
                     </div>
                 </div>
@@ -92,36 +92,19 @@ Dashboard Page
                     <a href="orders.html" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">View all</a>
                 </div>
                 <div class="space-y-4">
-                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                        <div>
-                            <p class="font-medium text-gray-900 dark:text-white">#ORD-001</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">John Doe</p>
+                    @foreach($recentOrders as $order)
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div>
+                                <p class="font-medium text-gray-900 dark:text-white">#ORD-{{$order->id}}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">{{$order->user->name}}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-medium text-gray-900 dark:text-white">${{$order->total}}</p>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">{{$order->status}}</span>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <p class="font-medium text-gray-900 dark:text-white">$299.99</p>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">Pending</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                        <div>
-                            <p class="font-medium text-gray-900 dark:text-white">#ORD-002</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Jane Smith</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-medium text-gray-900 dark:text-white">$149.99</p>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">Shipped</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                        <div>
-                            <p class="font-medium text-gray-900 dark:text-white">#ORD-003</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Mike Johnson</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-medium text-gray-900 dark:text-white">$89.99</p>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Delivered</span>
-                        </div>
-                    </div>
+                    @endforeach
+                    
                 </div>
             </div>
         </div>

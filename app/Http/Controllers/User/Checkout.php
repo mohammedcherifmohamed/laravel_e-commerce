@@ -22,14 +22,14 @@ class Checkout extends Controller
     
     public function checkoutsubmit(Request $req){
         // Handle AJAX checkout here
-        // Example: dd($req->all());
+     dd($req->all());
         return response()->json(['success' => true, 'data' => $req->all()]);
     }
 
     // Show the checkout form
     public function showCheckoutForm()
     {
-        $cart = session('cart', []); // Or use your Cart logic
+        $cart = session('cart', []); 
         $total = array_sum(array_map(function($item) {
             return $item['price'] * $item['quantity'];
         }, $cart));
@@ -37,8 +37,8 @@ class Checkout extends Controller
     }
 
     // Process the checkout
-   public function processCheckout(Request $request)
-{
+   public function processCheckout(Request $request){
+
     $request->validate([
         'name' => 'required|string|max:255',
         'address' => 'required|string|max:255',
@@ -75,6 +75,8 @@ class Checkout extends Controller
         }
 
         DB::commit();
+
+        // Send Email 
 
         return response()->json([
             'success' => true,

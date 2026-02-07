@@ -1,10 +1,10 @@
 // User-side dark mode toggle logic
-    function getCart() {
-        return JSON.parse(localStorage.getItem('cart') || '[]');
-    }
-    function setCart(cart) {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }
+function getCart() {
+    return JSON.parse(localStorage.getItem('cart') || '[]');
+}
+function setCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
 document.addEventListener("DOMContentLoaded", () => {
     const toggleBtn = document.getElementById('darkModeToggle');
     const sunIcon = document.getElementById('sunIcon');
@@ -13,20 +13,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const sunIconMobile = document.getElementById('sunIconMobile');
     const moonIconMobile = document.getElementById('moonIconMobile');
     const profileMenuBtn = document.getElementById('profileMenuBtn');
-            const profileMenu = document.getElementById('profileMenu');
-             // Profile menu toggle
-            if (profileMenuBtn && profileMenu) {
-                profileMenuBtn.addEventListener('click', function() {
-                    profileMenu.classList.toggle('hidden');
-                });
+    const profileMenu = document.getElementById('profileMenu');
+    // Profile menu toggle
+    if (profileMenuBtn && profileMenu) {
+        profileMenuBtn.addEventListener('click', function () {
+            profileMenu.classList.toggle('hidden');
+        });
 
-                // Close profile menu when clicking outside
-                document.addEventListener('click', function(event) {
-                    if (!profileMenuBtn.contains(event.target) && !profileMenu.contains(event.target)) {
-                        profileMenu.classList.add('hidden');
-                    }
-                });
+        // Close profile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            if (!profileMenuBtn.contains(event.target) && !profileMenu.contains(event.target)) {
+                profileMenu.classList.add('hidden');
             }
+        });
+    }
 
     function applyTheme(isDark) {
         if (isDark) {
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- CART LOGIC ---
     // Cart state in localStorage
 
-    
+
     function updateCartCount() {
         const cart = getCart();
         const count = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeCart = document.getElementById('closeCart');
     if (closeCart) closeCart.addEventListener('click', hideCartModal);
     // Remove item
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (e.target.classList.contains('removeCartItem')) {
             const idx = +e.target.getAttribute('data-idx');
             let cart = getCart();
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     // Increment/Decrement quantity
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (e.target.classList.contains('incrementQty')) {
             const idx = +e.target.getAttribute('data-idx');
             let cart = getCart();
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // Add to cart logic (to be called from product/shop pages)
-    window.addToCart = function(product) {
+    window.addToCart = function (product) {
         let cart = getCart();
         const idx = cart.findIndex(item => item.id === product.id);
         if (idx > -1) {
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
         checkoutModal.classList.add('hidden');
     });
 
-}); 
+});
 
 $('#checkoutBtn').on('click', function () {
     console.log('Checkout button clicked');
@@ -249,14 +249,17 @@ $('#checkoutBtn').on('click', function () {
 
     checkoutTotal.textContent = `$${total.toFixed(2)}`;
 });
-document.getElementById('checkoutDeliveryForm')?.addEventListener('submit', function(e) {
+document.getElementById('checkoutDeliveryForm')?.addEventListener('submit', function (e) {
     e.preventDefault();
+    console.log("form submitted");
 
     const formData = new FormData(this);
     const deliveryData = Object.fromEntries(formData.entries());
     deliveryData.cart = getCart();
 
-fetch(checkoutProcessUrl, {
+    console.log('Submitting checkout with data:', deliveryData);
+
+    fetch(checkoutProcessUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -264,20 +267,27 @@ fetch(checkoutProcessUrl, {
         },
         body: JSON.stringify(deliveryData)
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("Order placed!");
-            localStorage.removeItem('cart');
-            window.location.href = "/thank-you";
-        } else {
-            alert("Error placing order.");
-        }
-    })
-    .catch(error => {
-        // console.error(error);
-        alert("Something went wrong!");
-    });
+        .then(async response => {
+            const isJson = response.headers.get('content-type')?.includes('application/json');
+            const data = isJson ? await response.json() : null;
+
+            if (!response.ok) {
+                const error = (data && data.message) || response.statusText;
+                throw new Error(error);
+            }
+
+            if (data && data.success) {
+                alert("Order placed!");
+                localStorage.removeItem('cart');
+                window.location.href = "/thank-you";
+            } else {
+                alert("Error placing order: " + (data?.message || "Unknown error"));
+            }
+        })
+        .catch(error => {
+            console.error('Checkout error:', error);
+            alert("Something went wrong! Check console for details.");
+        });
 });
 
 
