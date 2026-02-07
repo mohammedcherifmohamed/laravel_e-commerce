@@ -13,6 +13,9 @@ use App\Http\Controllers\User\User_AuthController;
 use App\Http\Controllers\User\ShopController;
 use App\Http\Controllers\User\Checkout;
 use App\Http\Controllers\User\ForgotPasswordController;
+use App\Http\Controllers\Admin\Orders;
+use App\Http\Controllers\Admin\Customer;
+
 
 Route::prefix('admin')->name('admin.')->middleware(RedirectIfUnauthenticated::class)->group(function(){
     Route::get('/dashboard',[Dashboard::class , "index"])->name('index');
@@ -39,6 +42,8 @@ Route::prefix('admin')->name('admin.')->middleware(RedirectIfUnauthenticated::cl
     
     Route::delete('/deleteImage/{id}',[ProductController::class , "deleteImage"])->name('deleteImage');
 
+    Route::get("/orders",[Orders::class , "index"])->name('orders');
+    Route::get("/customer",[Customer::class , "index"])->name('customer');
 });
 
 
