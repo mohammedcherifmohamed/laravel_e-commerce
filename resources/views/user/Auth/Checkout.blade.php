@@ -1,7 +1,7 @@
 @extends('includes.main')
 @section('content')
 <div class="container mt-5">
-    <h2>Checkout</h2>
+    <h2>Checkout track</h2>
     @if(session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif

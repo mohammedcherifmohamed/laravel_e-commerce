@@ -62,7 +62,7 @@ Route::get('/user/shop',[ShopController::class , "index"])->name('shop');
 
 Route::get('/user/productDetails/{slug}/{id}',[ShopController::class , "productDetails"])->name('productDetails');
 
-Route::get('/user/Login_Register',[User_AuthController::class , "Login_Register"])->name('Login_Register');
+Route::get('/user/Login_Register',[User_AuthController::class , "Login_Register"])->name('login');
 
 Route::post('/user/registerPost',[User_AuthController::class , "registerPost"])->name('registerPost');
 
@@ -72,6 +72,8 @@ Route::get('/user/Userlogout',[User_AuthController::class , "Userlogout"])->name
 
 // Checkout routes
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/testAuth', [\App\Http\Controllers\User\Checkout::class, 'testAuth'])->name('testAuth');
     Route::get('/checkout', [\App\Http\Controllers\User\Checkout::class, 'showCheckoutForm'])->name('checkout.form');
     Route::post('/checkout', [\App\Http\Controllers\User\Checkout::class, 'processCheckout'])->name('checkout.process');
     Route::get('/checkout/confirmation/{order}', [\App\Http\Controllers\User\Checkout::class, 'confirmation'])->name('checkout.confirmation');

@@ -45,7 +45,7 @@ public function home()
         ]);
 
      if($result){
-        return redirect()->route('Login_Register')->with('success', 'Registration successful, please login.');
+        return redirect()->route('login')->with('success', 'Registration successful, please login.');
      }
         return redirect()->back()->with('error', 'Registration failed, please try again.');
 

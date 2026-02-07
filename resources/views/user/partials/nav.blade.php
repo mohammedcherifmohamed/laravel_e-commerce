@@ -35,7 +35,7 @@
 
           
        @else 
-          <a  href="{{route('Login_Register')}}" id="loginBtn" class="hover:text-primary transition">Login</a>
+          <a  href="{{route('login')}}" id="loginBtn" class="hover:text-primary transition">Login</a>
         @endif
 
         <a href="#" id="cartToggleBtn" class="ml-2 relative">

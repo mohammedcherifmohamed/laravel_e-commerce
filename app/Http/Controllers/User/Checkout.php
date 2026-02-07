@@ -36,6 +36,7 @@ class Checkout extends Controller
         return view('user.Auth.Checkout', compact('cart', 'total'));
     }
 
+
     // Process the checkout
    public function processCheckout(Request $request){
 
@@ -51,6 +52,10 @@ class Checkout extends Controller
 
     if (empty($cart)) {
         return response()->json(['success' => false, 'message' => 'Cart is empty.']);
+    }
+    // check if user is authenticated
+    if (!Auth::check()) {
+        return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
     }
 
     DB::beginTransaction();

@@ -263,13 +263,21 @@ document.getElementById('checkoutDeliveryForm')?.addEventListener('submit', func
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
+
         },
         body: JSON.stringify(deliveryData)
     })
         .then(async response => {
             const isJson = response.headers.get('content-type')?.includes('application/json');
             const data = isJson ? await response.json() : null;
+
+            if (response.status === 401 || response.status === 403) {
+                alert("Please login to continue.");
+                window.location.href = "/user/Login_Register";
+                return;
+            }
 
             if (!response.ok) {
                 const error = (data && data.message) || response.statusText;
@@ -286,7 +294,7 @@ document.getElementById('checkoutDeliveryForm')?.addEventListener('submit', func
         })
         .catch(error => {
             console.error('Checkout error:', error);
-            alert("Something went wrong! Check console for details.");
+            alert("You Should Login First");
         });
 });
 
