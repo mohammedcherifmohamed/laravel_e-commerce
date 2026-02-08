@@ -89,7 +89,7 @@ Dashboard Page
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Orders</h3>
-                    <a href="orders.html" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">View all</a>
+                    <a href="{{route("admin.orders")}}" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">View all</a>
                 </div>
                 <div class="space-y-4">
                     @foreach($recentOrders as $order)

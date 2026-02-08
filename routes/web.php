@@ -43,6 +43,9 @@ Route::prefix('admin')->name('admin.')->middleware(RedirectIfUnauthenticated::cl
     Route::delete('/deleteImage/{id}',[ProductController::class , "deleteImage"])->name('deleteImage');
 
     Route::get("/orders",[Orders::class , "index"])->name('orders');
+    
+    Route::post("/orders/update",[Orders::class , "update"])->name('orders.update');
+
     Route::get("/customer",[Customer::class , "index"])->name('customer');
 });
 

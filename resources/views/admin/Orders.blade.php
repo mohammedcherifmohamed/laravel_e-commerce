@@ -14,6 +14,20 @@ Orders Management
 
 @section('content')
 
+
+    @if(session('success'))
+    <x-alert type="success" >
+        {{ session('success') }}
+    </x-alert>
+    @endif
+
+
+    @if(session('error'))
+    <x-alert type="error" >
+        {{ session('error') }}
+    </x-alert>
+    @endif
+
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Header -->
@@ -67,8 +81,8 @@ Orders Management
                                             {{ strtoupper(substr($order->user->name, 0, 2)) }}
                                         </div>
                                         <div>
-                                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{$order->name}}</div>
-                                            <div class="text-xs text-gray-500 dark:text-gray-400">{{$order->email}}</div>
+                                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{$order->user->name}}</div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">{{$order->user->email}}</div>
                                         </div>
                                     </div>
                                 </td>
@@ -92,6 +106,14 @@ Orders Management
                                 </td>
                                 <td class="px-6 py-4 text-right text-sm font-medium">
                                     <button class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300 mr-3">View</button>
+                                    <button type="button" 
+                                        data-order-id="{{$order->id}}"
+                                        data-customer-name="{{$order->user->name}}"
+                                        data-order-status="{{$order->status}}"
+                                        data-order-total="{{$order->total}}"
+                                        class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-3 edit-order-btn">
+                                        Edit
+                                    </button>
                                     <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
@@ -125,6 +147,71 @@ Orders Management
                             {{ $orders->hasMorePages() ? 'hover:bg-white dark:hover:bg-gray-600' : 'opacity-50 pointer-events-none' }}">
                         Next
                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Order Modal -->
+    <div id="editOrderModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" id="editModalOverlay"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Modal panel -->
+            <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
+                                Edit Order
+                            </h3>
+                            <form action="{{route("admin.orders.update")}}" method="POST" id="editOrderForm">
+                                @csrf
+                                <div class="mt-4 space-y-4">
+                                    <div>
+                                        <label for="edit_order_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order ID</label>
+                                        <input name="order_id" type="text" id="edit_order_id" readonly class="mt-1 block w-full h-10 px-3.5 rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-black dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="edit_customer_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Customer</label>
+                                        <input type="text" id="edit_customer_name" readonly class="mt-1 block w-full h-10 rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+
+                                    <div>
+                                        <label for="edit_order_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                                        <select name="status" id="edit_order_status" class="mt-1 block w-full h-10 px-3.5 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                            <option value="pending">Pending</option>
+                                            <option value="processing">Processing</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="edit_order_total" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Total Amount</label>
+                                        <div class="mt-1 relative rounded-md shadow-sm">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="text-gray-500 sm:text-sm">$</span>
+                                            </div>
+                                            <input type="text" id="edit_order_total" readonly class="pl-7 block w-full h-10 px-3.5 rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-black-500 dark:text-white-400 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="submit" id="saveOrderBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Save Changes
+                    </button>
+
+                </form>
+                    <button type="button" id="closeEditOrderModal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>
