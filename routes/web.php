@@ -15,6 +15,7 @@ use App\Http\Controllers\User\Checkout;
 use App\Http\Controllers\User\ForgotPasswordController;
 use App\Http\Controllers\Admin\Orders;
 use App\Http\Controllers\Admin\Customer;
+use App\Http\Controllers\Admin\Analytics;
 
 
 Route::prefix('admin')->name('admin.')->middleware(RedirectIfUnauthenticated::class)->group(function(){
@@ -47,6 +48,10 @@ Route::prefix('admin')->name('admin.')->middleware(RedirectIfUnauthenticated::cl
     Route::post("/orders/update",[Orders::class , "update"])->name('orders.update');
 
     Route::get("/customer",[Customer::class , "index"])->name('customer');
+    
+    //___________ ANAlytics
+    
+    Route::get("/analyze",[Analytics::class , "get_analyze_sales"])->name('analyze');
 });
 
 

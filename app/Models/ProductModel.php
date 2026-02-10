@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CategoryModel;
 use App\Models\ImageModel;
@@ -9,6 +10,8 @@ use Illuminate\Support\Str;
 
 class ProductModel extends Model
 {
+    use HasFactory;
+
     protected $table = 'products';
      protected $fillable = [
         'name',
